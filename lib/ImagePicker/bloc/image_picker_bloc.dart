@@ -1,4 +1,4 @@
-import 'package:bloc_state_management/ImagePicker/utils/image_pciker_utils.dart';
+import 'package:bloc_state_management/ImagePicker/utils/image_picker_utils.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
@@ -8,7 +8,7 @@ part 'image_picker_state.dart';
 
 class ImagePickerBloc extends Bloc<ImagePickerEvent, ImagePickerState> {
   final ImagePickerUtils imagePickerUtils;
-  ImagePickerBloc(this.imagePickerUtils) : super(ImagePickerState()) {
+  ImagePickerBloc(this.imagePickerUtils) : super(const ImagePickerState()) {
     on<CameraCapture>(_cameraCature);
   }
 
