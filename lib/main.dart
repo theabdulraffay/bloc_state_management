@@ -1,3 +1,6 @@
+import 'package:bloc_state_management/Favourite%20App/bloc/favourite_app_bloc.dart';
+import 'package:bloc_state_management/Favourite%20App/repository/favourite_repository.dart';
+import 'package:bloc_state_management/Favourite%20App/screens/favourite_app_screen.dart';
 import 'package:bloc_state_management/ImagePicker/bloc/image_picker_bloc.dart';
 import 'package:bloc_state_management/Multi%20Bloc/bloc/switch_example_bloc.dart';
 import 'package:bloc_state_management/Todo%20List/bloc/todo_bloc.dart';
@@ -24,7 +27,8 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (_) => SwitchExampleBloc()),
         BlocProvider(create: (context) => CounterBloc()),
         BlocProvider(create: (_) => ImagePickerBloc(ImagePickerUtils())),
-        BlocProvider(create: (_) => TodoBloc())
+        BlocProvider(create: (_) => TodoBloc()),
+        BlocProvider(create: (_) => FavouriteAppBloc(FavouriteRepository())),
       ],
       child: MaterialApp(
         title: 'Flutter Demo',
@@ -33,7 +37,7 @@ class MyApp extends StatelessWidget {
           useMaterial3: true,
         ),
         // home: const MultiBlocScreen(),
-        home: const ImagePickerScreen(),
+        home: const FavouriteAppScreen(),
         // home: const TodoList(),
       ),
     );
