@@ -13,7 +13,6 @@ class PostScreen extends StatefulWidget {
 class _PostScreenState extends State<PostScreen> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     context.read<PostBloc>().add(PostFetched());
   }
@@ -31,23 +30,45 @@ class _PostScreenState extends State<PostScreen> {
             return const Center(child: CircularProgressIndicator());
           case PostStatus.failure:
             return Text('An error occurred: ${state.message}');
-          case PostStatus.succcess:
-            return ListView.builder(
-              itemCount: state.postModel.length,
-              itemBuilder: (context, index) {
-                return ListTile(
-                  title: Text(
-                    state.postModel[index].name!,
-                    style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  subtitle: Text(state.postModel[index].body!),
-                );
-              },
-            );
           default:
-            return const Text('Post Screen');
+            return Column(
+              children: [
+                TextFormField(
+                  onChanged: (val) {
+                    context.read<PostBloc>().add(SearchItem(query: val));
+                  },
+                  decoration: const InputDecoration(
+                    hintText: 'Search with mail',
+                    border: OutlineInputBorder(),
+                  ),
+                ),
+                Expanded(
+                  child: state.postStatus == PostStatus.empty
+                      ? const Center(
+                          child: Text('Did not find the post for the input'),
+                        )
+                      : ListView.builder(
+                          itemCount: state.temppostModel.isEmpty
+                              ? state.postModel.length
+                              : state.temppostModel.length,
+                          itemBuilder: (context, index) {
+                            final data = state.temppostModel.isEmpty
+                                ? state.postModel[index]
+                                : state.temppostModel[index];
+                            return ListTile(
+                              title: Text(
+                                data.email!,
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              subtitle: Text(data.body!),
+                            );
+                          },
+                        ),
+                ),
+              ],
+            );
         }
       }),
     );
