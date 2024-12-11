@@ -5,7 +5,7 @@ class FavouriteRepository {
     // ignore: prefer_const_constructors
     await Future.delayed(Duration(seconds: 3));
     return List.of(
-      _generateList(10),
+      _generateList(3),
     );
   }
 

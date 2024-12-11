@@ -20,6 +20,7 @@ class _FavouriteAppScreenState extends State<FavouriteAppScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         title: const Text('Favourite App Screen'),
         centerTitle: true,
@@ -30,7 +31,7 @@ class _FavouriteAppScreenState extends State<FavouriteAppScreen> {
                   ? IconButton(
                       icon: const Icon(
                         Icons.delete,
-                        color: Colors.white,
+                        color: Colors.black,
                       ),
                       onPressed: () {
                         context.read<FavouriteAppBloc>().add(
@@ -49,7 +50,26 @@ class _FavouriteAppScreenState extends State<FavouriteAppScreen> {
             case ListStatus.loading:
               return const Center(child: CircularProgressIndicator());
             case ListStatus.failure:
-              return const Text('data heh');
+              return AlertDialog(
+                title: const Text('AlertDialog Title'),
+                content: const SingleChildScrollView(
+                  child: ListBody(
+                    children: <Widget>[
+                      Text('This is a demo alert dialog.'),
+                      Text('Would you like to approve of this message?'),
+                    ],
+                  ),
+                ),
+                actions: <Widget>[
+                  TextButton(
+                    child: const Text('Approve'),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                  ),
+                ],
+              );
+
             case ListStatus.success:
               return ListView.builder(
                 itemCount: state.favouriteItemList.length,
@@ -69,10 +89,6 @@ class _FavouriteAppScreenState extends State<FavouriteAppScreen> {
                               context
                                   .read<FavouriteAppBloc>()
                                   .add(UnSelectItemEvent(index: index));
-
-                              // context
-                              //     .read<FavouriteAppBloc>()
-                              //     .add(DeleteItem(index: index));
                             }
                           }),
                       title: Text(
