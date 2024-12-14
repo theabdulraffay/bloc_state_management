@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:io';
-
 import 'package:bloc_state_management/Post%20API/Model/post_model.dart';
 // ignore: depend_on_referenced_packages
 import 'package:http/http.dart' as http;
@@ -10,6 +9,7 @@ class PostRepository {
     try {
       final response = await http
           .get(Uri.parse('https://jsonplaceholder.typicode.com/comments'));
+      // print(response.body);
       if (response.statusCode == 200) {
         final jsonResponse = json.decode(response.body) as List;
         return jsonResponse.map((e) {
