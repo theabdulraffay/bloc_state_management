@@ -1,3 +1,4 @@
+import 'package:bloc_state_management/Login/Enums/login_enum.dart';
 import 'package:bloc_state_management/Login/bloc/login_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -77,9 +78,51 @@ class _LoginScreenState extends State<LoginScreen> {
                 },
               ),
               const SizedBox(height: 16),
-              ElevatedButton(
-                onPressed: () {},
-                child: const Text('Login'),
+              BlocListener<LoginBloc, LoginState>(
+                listener: (context, state) {
+                  if (state.loginStatus == LoginStatus.error) {
+                    ScaffoldMessenger.of(context)
+                      ..hideCurrentSnackBar()
+                      ..showSnackBar(
+                        SnackBar(
+                          content: Text(state.message),
+                        ),
+                      );
+                  }
+
+                  if (state.loginStatus == LoginStatus.loading) {
+                    ScaffoldMessenger.of(context)
+                      ..hideCurrentSnackBar()
+                      ..showSnackBar(
+                        const SnackBar(
+                          content: Text('submitting'),
+                        ),
+                      );
+                  }
+
+                  if (state.loginStatus == LoginStatus.success) {
+                    ScaffoldMessenger.of(context)
+                      ..hideCurrentSnackBar()
+                      ..showSnackBar(
+                        const SnackBar(
+                          content: Text('Login successfull'),
+                        ),
+                      );
+                  }
+                },
+                child: BlocBuilder<LoginBloc, LoginState>(
+                  buildWhen: (curr, prev) => false,
+                  builder: (context, state) {
+                    return ElevatedButton(
+                      onPressed: () {
+                        context.read<LoginBloc>().add(
+                              LoginAPIEvent(),
+                            );
+                      },
+                      child: const Text('Login'),
+                    );
+                  },
+                ),
               ),
             ],
           ),
